@@ -1,0 +1,70 @@
+ls -l:
+
+lists all the files in current working directory in long listing format.
+ for example:
+
+#!/bin/bash
+# A simple bash script to move up to desired directory level directly
+
+function jump()
+{
+ 	#Original value of Internal Field separator
+	OLDIFS=$IFS
+
+	#Setting field separator to "/"
+	IFS=/
+
+	#converting working path into array of directories in path
+	#eg. /my/path/is/like/this
+
+	#into [,my,path,is,like,this]
+	path_arr=($PWD)
+	
+	#setting IFS to original value
+	IFS=$OLDIFS
+	
+	local pos=-1
+
+	# ${path_arr[@]} gives all the values in the path_arr
+for dir in "${path_arr[@]}"
+do
+pos=$[$pos+1]
+if [ "$1" = "$dir" ];then
+cwd=$pwd
+limit=$[$dir_in_path-$pos-1]
+for ((i=0;i<limit;i++))
+do
+	cwd=$cwd/..
+	done
+	cd $cwd
+	break
+fi
+done
+}
+ giving permission for making the shell script executable :
+$ chmod -x path/to/our/file/file_name.sh
+to make this available on every terminal session we have to put this in ".bashrc" file.
+".bashrc" is a shell script that bash shell runs whenever it is started interactively
+
+It is the purpose of a .bashrc file is to provide a place where you can set up variables,functions and aliases
+
+$echo "source ~/path/to/our/file/jump.sh">> ~/.bashrc
+
+$jump dir_name 
+
+Example-2:
+
+#!/bin/bash
+#reading data from the user:
+read -p 'Enter a : ' a
+	read
+-p 'Enter b : ' b
+
+add=$((a + b))
+echo Addition of a and b are $add
+
+subtract=$((a - b))
+echo subtraction of a and b are $subtract
+
+multiply=$((a * b))
+echo multiplication of a and b are $div 
